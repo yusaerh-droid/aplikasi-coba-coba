@@ -9,6 +9,11 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
 <title>FokusKu</title>
+<meta name="HandheldFriendly" content="true">
+<meta name="apple-mobile-web-app-title" content="FokusKu">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <!--
 =====================================================================
@@ -351,8 +356,14 @@ const I18N = {
     'goal.done':'🎉 TARGET TERCAPAI!','goal.badge':'Tercapai','goal.empty':'Belum ada target keuangan','goal.congrats':'Selamat! Target {0} sudah tercapai',
     'profile.title':'Profil','profile.name':'Nama','profile.photo':'Foto Profil','profile.gallery':'Pilih dari galeri','profile.camera':'Ambil foto',
     'profile.remove':'Hapus foto','profile.language':'Bahasa','profile.appearance':'Tampilan & Privasi','profile.dark':'Mode gelap','profile.privacy':'Mode privasi saldo',
-    'profile.sheet':'Google Sheets','profile.sheetHint':'Tempel URL Web App Google Apps Script. Kosongkan jika tidak dipakai.','profile.reset':'Hapus semua data',
+    'profile.sheet':'Google Sheets (opsional)','profile.sheetHint':'Tidak wajib — data sudah tersimpan di aplikasi. Isi hanya jika ingin salinan ke Google Sheets.','profile.reset':'Hapus semua data',
     'profile.resetAsk':'Hapus SEMUA data FokusKu di perangkat ini? Tindakan ini tidak bisa dibatalkan.','profile.data':'Data',
+    'install.title':'Pasang Aplikasi','install.desc':'Pasang FokusKu di layar utama HP agar tampil layar penuh seperti aplikasi asli. Semua data tersimpan langsung di aplikasi.',
+    'install.btn':'📲 Pasang di HP','install.done':'Sudah terpasang ✓','install.ok':'Aplikasi berhasil dipasang 🎉','install.manual':'Cara memasang',
+    'install.a1':'Buka menu ⋮ di Chrome','install.a2':'Pilih "Instal aplikasi" atau "Tambahkan ke layar utama"','install.a3':'Tekan Instal, lalu buka dari ikon FokusKu',
+    'install.i1':'Buka halaman ini di Safari','install.i2':'Ketuk tombol Bagikan ⬆️','install.i3':'Pilih "Tambah ke Layar Utama"',
+    'install.note':'Buka lewat alamat https (mis. GitHub Pages). Dari pratinjau Acode atau file lokal, pemasangan tidak tersedia.','install.mode':'Mode',
+    'install.standalone':'Berjalan sebagai aplikasi','install.browser':'Berjalan di browser',
     'onboard.title':'Selamat datang di FokusKu','onboard.ask':'Siapa namamu?','onboard.start':'Mulai',
     'onboard.tag':'Bangun disiplin, satu kebiasaan setiap hari','onboard.lang':'Pilih bahasa','onboard.ph':'Tulis namamu di sini',
     'toast.noUrl':'Tersimpan di HP. URL Google Sheets belum diisi','toast.synced':'Terkirim ke Google Sheets ✓','toast.syncFail':'Gagal mengirim ke Google Sheets',
@@ -386,8 +397,14 @@ const I18N = {
     'goal.done':'🎉 تم تحقيق الهدف!','goal.badge':'تحقق','goal.empty':'لا توجد أهداف مالية بعد','goal.congrats':'مبروك! تحقق هدف {0}',
     'profile.title':'الملف الشخصي','profile.name':'الاسم','profile.photo':'الصورة الشخصية','profile.gallery':'اختر من المعرض','profile.camera':'التقاط صورة',
     'profile.remove':'حذف الصورة','profile.language':'اللغة','profile.appearance':'المظهر والخصوصية','profile.dark':'الوضع الداكن','profile.privacy':'وضع خصوصية الرصيد',
-    'profile.sheet':'Google Sheets','profile.sheetHint':'الصق رابط تطبيق الويب من Google Apps Script. اتركه فارغًا إن لم تستخدمه.','profile.reset':'حذف كل البيانات',
+    'profile.sheet':'Google Sheets (اختياري)','profile.sheetHint':'غير مطلوب — البيانات محفوظة داخل التطبيق. املأه فقط إن أردت نسخة في Google Sheets.','profile.reset':'حذف كل البيانات',
     'profile.resetAsk':'هل تريد حذف كل بيانات FokusKu من هذا الجهاز؟ لا يمكن التراجع عن هذا الإجراء.','profile.data':'البيانات',
+    'install.title':'تثبيت التطبيق','install.desc':'ثبّت FokusKu على الشاشة الرئيسية ليعمل بملء الشاشة كتطبيق حقيقي. تُحفظ كل البيانات مباشرة داخل التطبيق.',
+    'install.btn':'📲 ثبّت على الهاتف','install.done':'مثبّت بالفعل ✓','install.ok':'تم تثبيت التطبيق بنجاح 🎉','install.manual':'طريقة التثبيت',
+    'install.a1':'افتح القائمة ⋮ في Chrome','install.a2':'اختر "تثبيت التطبيق" أو "إضافة إلى الشاشة الرئيسية"','install.a3':'اضغط تثبيت ثم افتحه من أيقونة FokusKu',
+    'install.i1':'افتح هذه الصفحة في Safari','install.i2':'اضغط زر المشاركة ⬆️','install.i3':'اختر "إضافة إلى الشاشة الرئيسية"',
+    'install.note':'افتح الصفحة عبر عنوان https (مثل GitHub Pages). التثبيت غير متاح من معاينة Acode أو الملف المحلي.','install.mode':'الوضع',
+    'install.standalone':'يعمل كتطبيق','install.browser':'يعمل في المتصفح',
     'onboard.title':'مرحبًا بك في FokusKu','onboard.ask':'ما اسمك؟','onboard.start':'ابدأ',
     'onboard.tag':'ابنِ الانضباط، عادة واحدة كل يوم','onboard.lang':'اختر اللغة','onboard.ph':'اكتب اسمك هنا',
     'toast.noUrl':'حُفظ على الجهاز. لم يتم إدخال رابط Google Sheets','toast.synced':'تم الإرسال إلى Google Sheets ✓','toast.syncFail':'تعذّر الإرسال إلى Google Sheets',
@@ -421,8 +438,14 @@ const I18N = {
     'goal.done':'🎉 GOAL REACHED!','goal.badge':'Achieved','goal.empty':'No financial goals yet','goal.congrats':'Congrats! {0} is achieved',
     'profile.title':'Profile','profile.name':'Name','profile.photo':'Profile Photo','profile.gallery':'Choose from gallery','profile.camera':'Take photo',
     'profile.remove':'Remove photo','profile.language':'Language','profile.appearance':'Appearance & Privacy','profile.dark':'Dark mode','profile.privacy':'Balance privacy mode',
-    'profile.sheet':'Google Sheets','profile.sheetHint':'Paste your Google Apps Script Web App URL. Leave empty if unused.','profile.reset':'Erase all data',
+    'profile.sheet':'Google Sheets (optional)','profile.sheetHint':'Not required — data is already saved in the app. Fill in only if you want a copy in Google Sheets.','profile.reset':'Erase all data',
     'profile.resetAsk':'Erase ALL FokusKu data on this device? This cannot be undone.','profile.data':'Data',
+    'install.title':'Install App','install.desc':'Add FokusKu to your home screen for a full-screen, app-like experience. All data is saved right inside the app.',
+    'install.btn':'📲 Install on phone','install.done':'Already installed ✓','install.ok':'App installed successfully 🎉','install.manual':'How to install',
+    'install.a1':'Open the ⋮ menu in Chrome','install.a2':'Choose "Install app" or "Add to Home screen"','install.a3':'Tap Install, then open it from the FokusKu icon',
+    'install.i1':'Open this page in Safari','install.i2':'Tap the Share button ⬆️','install.i3':'Choose "Add to Home Screen"',
+    'install.note':'Open it via an https address (e.g. GitHub Pages). Installing is not available from the Acode preview or a local file.','install.mode':'Mode',
+    'install.standalone':'Running as an app','install.browser':'Running in browser',
     'onboard.title':'Welcome to FokusKu','onboard.ask':"What's your name?",'onboard.start':'Start',
     'onboard.tag':'Build discipline, one habit at a time','onboard.lang':'Choose language','onboard.ph':'Type your name here',
     'toast.noUrl':'Saved on device. Google Sheets URL not set','toast.synced':'Sent to Google Sheets ✓','toast.syncFail':'Failed to send to Google Sheets',
@@ -496,7 +519,7 @@ const fmtDate = (s, opt) => parseD(s).toLocaleDateString(LOC[lang], opt || { day
    ===================================================================== */
 async function sendToGoogleSheet(sheetName, data){
   const url = String(LS.get('sheetUrl', '') || WEB_APP_URL || '').trim();
-  if (!url){ toast(t('toast.noUrl'), 'warn'); return false; }
+  if (!url){ toast(t('toast.saved'), 'ok'); return false; } // data sudah tersimpan di aplikasi (LocalStorage)
   try {
     await fetch(url, {
       method: 'POST', mode: 'no-cors',
@@ -840,6 +863,7 @@ function viewProfile(){
       '</div></section>' +
     '<section class="glass p-5">' + secTitle(t('profile.name')) +
       '<form data-form="saveName" class="flex gap-2"><input name="name" class="field flex-1" value="' + esc(profile.name) + '" required maxlength="40"><button class="btn btn-primary" style="flex:none">' + esc(t('common.save')) + '</button></form></section>' +
+    installCard() +
     '<section class="glass p-5">' + secTitle(t('profile.language')) + '<div class="flex flex-wrap gap-2">' + langs + '</div></section>' +
     '<section class="glass p-5">' + secTitle(t('profile.appearance')) +
       '<div class="space-y-4">' +
@@ -1074,6 +1098,39 @@ function handlePhoto(file){
 ['photoGallery', 'photoCamera'].forEach(id => {
   $('#' + id).addEventListener('change', e => { handlePhoto(e.target.files[0]); e.target.value = ''; });
 });
+
+/* =====================================================================
+   PWA — PASANG APLIKASI
+   ===================================================================== */
+let deferredInstall = null;
+const isStandalone = () => (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+const isIOS = () => /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredInstall = e; if (tab === 'profile') render(false); });
+window.addEventListener('appinstalled', () => { deferredInstall = null; toast(t('install.ok'), 'ok'); confetti(60); if (tab === 'profile') render(false); });
+function installCard(){
+  const on = isStandalone();
+  return '<section class="glass p-5">' + secTitle(t('install.title')) +
+    '<div class="flex items-center gap-3 mb-3"><img src="icon-192.png" alt="" onerror="this.style.display=\'none\'" style="width:54px;height:54px;border-radius:14px;flex:none"><div class="tiny muted">' + esc(t('install.desc')) + '</div></div>' +
+    '<div class="tiny muted mb-3">' + esc(t('install.mode')) + ': <b>' + esc(on ? t('install.standalone') : t('install.browser')) + '</b></div>' +
+    (on ? '<div class="btn btn-ghost w-full" style="opacity:.8">' + esc(t('install.done')) + '</div>'
+        : '<button data-act="installApp" class="btn btn-primary w-full">' + esc(t('install.btn')) + '</button>') +
+  '</section>';
+}
+A.installApp = async function(){
+  if (isStandalone()){ toast(t('install.done'), 'ok'); return; }
+  if (deferredInstall){
+    try { deferredInstall.prompt(); await deferredInstall.userChoice; } catch (e) {}
+    deferredInstall = null; render(false); return;
+  }
+  const steps = isIOS() ? ['install.i1', 'install.i2', 'install.i3'] : ['install.a1', 'install.a2', 'install.a3'];
+  openSheet('<div class="h-title mb-3">📲 ' + esc(t('install.manual')) + '</div><div class="space-y-2">' +
+    steps.map((k, i) => '<div class="inner p-3 flex items-center gap-3"><span class="badge" style="flex:none">' + (i + 1) + '</span><span class="font-semibold">' + esc(t(k)) + '</span></div>').join('') +
+    '</div><div class="tiny muted mt-3">' + esc(t('install.note')) + '</div>' +
+    '<button data-act="closeSheet" class="btn btn-ghost w-full mt-4">' + esc(t('common.close')) + '</button>');
+};
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+}
 
 /* =====================================================================
    HALAMAN WELCOME (terpisah dari halaman utama)

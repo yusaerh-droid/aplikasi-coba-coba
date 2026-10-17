@@ -65,8 +65,12 @@
     --blob:.38;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{margin:0;padding:0;overflow-x:hidden;width:100%;max-width:100%;touch-action:manipulation;-webkit-text-size-adjust:100%}
-  body{min-height:100vh;min-height:100dvh;color:var(--text);font-family:"Plus Jakarta Sans","Noto Naskh Arabic",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg1);overscroll-behavior-y:none}
+  html,body{margin:0;padding:0;-webkit-text-size-adjust:100%}
+  html{overflow-y:auto;-webkit-overflow-scrolling:touch}
+  body{overflow-x:clip;overflow-y:visible;width:100%}
+  html,body{touch-action:pan-y}
+  #view,header,nav{touch-action:pan-y}
+  body{min-height:100vh;min-height:100dvh;color:var(--text);font-family:"Plus Jakarta Sans","Noto Naskh Arabic",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;background:var(--bg1)}
   [dir="rtl"] body{font-family:"Noto Naskh Arabic","Plus Jakarta Sans",system-ui,sans-serif}
   button{font-family:inherit;color:inherit;border:0;background:none;cursor:pointer;padding:0}
   input,select,textarea{font-family:inherit}
@@ -238,6 +242,18 @@
   .leading-tight{line-height:1.25}.line-through{text-decoration:line-through}.opacity-60{opacity:.6}
   .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .w-full.btn,.btn.w-full{display:flex}
+  .max-w-xs{max-width:20rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.mt-5{margin-top:1.25rem}.mt-8{margin-top:2rem}
+
+  /* ---------- Welcome page ---------- */
+  #welcome{position:fixed;inset:0;z-index:120;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  body.welcome-on #welcome{display:block}
+  body.welcome-on #app,body.welcome-on #nav{display:none!important}
+  #welcome .wrap{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:calc(env(safe-area-inset-top) + 28px) 22px calc(env(safe-area-inset-bottom) + 28px)}
+  #welcome.leave{animation:wLeave .45s ease forwards;pointer-events:none}
+  @keyframes wLeave{to{opacity:0;transform:scale(1.04)}}
+  .w-in{animation:rise .6s cubic-bezier(.22,1,.36,1) both}
+  .w-logo{width:116px;height:116px;border-radius:32px;display:grid;place-items:center;font-size:62px;margin:0 auto;background:linear-gradient(145deg,rgba(255,170,60,.35),rgba(255,70,50,.25));border:1px solid var(--line);box-shadow:0 0 50px rgba(255,120,0,.45),inset 0 1px 0 rgba(255,255,255,.4);animation:glowPulse 2.2s ease-in-out infinite}
+  .w-title{font-size:2.2rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,#6366f1,#ec4899,#f97316);-webkit-background-clip:text;background-clip:text;color:transparent}
 
   ::-webkit-scrollbar{display:none}
   @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
@@ -254,7 +270,7 @@
   <input type="file" id="photoGallery" accept="image/*" hidden>
   <input type="file" id="photoCamera" accept="image/*" capture="user" hidden>
 
-  <div class="relative z-10 mx-auto w-full max-w-lg">
+  <div id="app" class="relative z-10 mx-auto w-full max-w-lg">
     <!-- Header -->
     <header class="flex items-center gap-3 px-4" style="padding-top:calc(env(safe-area-inset-top) + 14px)">
       <button id="hdrAvatar" data-act="goProfile" class="w-12 h-12 flex-none" aria-label="Profile"></button>
@@ -279,6 +295,9 @@
     <button class="nav-btn" data-act="nav" data-tab="habit"><span class="ico">🔥</span><span class="lbl" data-i18n="nav.habit"></span></button>
     <button class="nav-btn" data-act="nav" data-tab="profile"><span class="ico">👤</span><span class="lbl" data-i18n="nav.profile"></span></button>
   </nav>
+
+  <!-- Halaman Welcome (terpisah dari halaman utama) -->
+  <div id="welcome"></div>
 
   <!-- Bottom sheet -->
   <div id="sheetWrap" class="fixed inset-0 z-[80]" style="display:none">
@@ -335,6 +354,7 @@ const I18N = {
     'profile.sheet':'Google Sheets','profile.sheetHint':'Tempel URL Web App Google Apps Script. Kosongkan jika tidak dipakai.','profile.reset':'Hapus semua data',
     'profile.resetAsk':'Hapus SEMUA data FokusKu di perangkat ini? Tindakan ini tidak bisa dibatalkan.','profile.data':'Data',
     'onboard.title':'Selamat datang di FokusKu','onboard.ask':'Siapa namamu?','onboard.start':'Mulai',
+    'onboard.tag':'Bangun disiplin, satu kebiasaan setiap hari','onboard.lang':'Pilih bahasa','onboard.ph':'Tulis namamu di sini',
     'toast.noUrl':'Tersimpan di HP. URL Google Sheets belum diisi','toast.synced':'Terkirim ke Google Sheets ✓','toast.syncFail':'Gagal mengirim ke Google Sheets',
     'toast.saved':'Tersimpan ✓','toast.deleted':'Dihapus','toast.photoOk':'Foto profil diperbarui ✓','toast.photoErr':'Gagal memproses foto',
     'toast.fullDone':'🎉 Semua kebiasaan selesai! Api membara 🔥','toast.needAmount':'Isi nominal dulu','toast.needName':'Isi nama dulu','toast.storage':'Penyimpanan penuh, coba foto yang lebih kecil',
@@ -369,6 +389,7 @@ const I18N = {
     'profile.sheet':'Google Sheets','profile.sheetHint':'الصق رابط تطبيق الويب من Google Apps Script. اتركه فارغًا إن لم تستخدمه.','profile.reset':'حذف كل البيانات',
     'profile.resetAsk':'هل تريد حذف كل بيانات FokusKu من هذا الجهاز؟ لا يمكن التراجع عن هذا الإجراء.','profile.data':'البيانات',
     'onboard.title':'مرحبًا بك في FokusKu','onboard.ask':'ما اسمك؟','onboard.start':'ابدأ',
+    'onboard.tag':'ابنِ الانضباط، عادة واحدة كل يوم','onboard.lang':'اختر اللغة','onboard.ph':'اكتب اسمك هنا',
     'toast.noUrl':'حُفظ على الجهاز. لم يتم إدخال رابط Google Sheets','toast.synced':'تم الإرسال إلى Google Sheets ✓','toast.syncFail':'تعذّر الإرسال إلى Google Sheets',
     'toast.saved':'تم الحفظ ✓','toast.deleted':'تم الحذف','toast.photoOk':'تم تحديث الصورة ✓','toast.photoErr':'تعذّرت معالجة الصورة',
     'toast.fullDone':'🎉 أنجزت كل العادات! النار مشتعلة 🔥','toast.needAmount':'أدخل المبلغ أولًا','toast.needName':'أدخل الاسم أولًا','toast.storage':'التخزين ممتلئ، جرّب صورة أصغر',
@@ -403,6 +424,7 @@ const I18N = {
     'profile.sheet':'Google Sheets','profile.sheetHint':'Paste your Google Apps Script Web App URL. Leave empty if unused.','profile.reset':'Erase all data',
     'profile.resetAsk':'Erase ALL FokusKu data on this device? This cannot be undone.','profile.data':'Data',
     'onboard.title':'Welcome to FokusKu','onboard.ask':"What's your name?",'onboard.start':'Start',
+    'onboard.tag':'Build discipline, one habit at a time','onboard.lang':'Choose language','onboard.ph':'Type your name here',
     'toast.noUrl':'Saved on device. Google Sheets URL not set','toast.synced':'Sent to Google Sheets ✓','toast.syncFail':'Failed to send to Google Sheets',
     'toast.saved':'Saved ✓','toast.deleted':'Deleted','toast.photoOk':'Profile photo updated ✓','toast.photoErr':'Could not process photo',
     'toast.fullDone':'🎉 All habits done! Flame is blazing 🔥','toast.needAmount':'Enter an amount first','toast.needName':'Enter a name first','toast.storage':'Storage full, try a smaller photo',
@@ -967,8 +989,8 @@ document.addEventListener('change', e => {
 const F = {
   onboard(f){
     const name = f.elements.name.value.trim(); if (!name){ toast(t('toast.needName'), 'warn'); return; }
-    profile.name = name; LS.set('profile', profile); closeSheet(true);
-    renderHeader(); render(false); toast(t('toast.saved'), 'ok');
+    profile.name = name; LS.set('profile', profile);
+    closeWelcome(); toast(t('toast.saved'), 'ok');
   },
   saveName(f){
     const name = f.elements.name.value.trim(); if (!name){ toast(t('toast.needName'), 'warn'); return; }
@@ -1054,16 +1076,41 @@ function handlePhoto(file){
 });
 
 /* =====================================================================
-   ONBOARDING (nama pengguna)
+   HALAMAN WELCOME (terpisah dari halaman utama)
    ===================================================================== */
-function openOnboarding(){
+function renderWelcome(keepName){
   const langs = LANG_ORDER.map(l => '<button type="button" data-act="setLangOnboard" data-lang="' + l + '" class="chip ' + (l === lang ? 'active' : '') + '">' + LANG_NAME[l] + '</button>').join('');
-  openSheet('<div class="text-center"><div class="text-5xl mb-2">🔥</div><div class="h-title" style="font-size:1.35rem">' + esc(t('onboard.title')) + '</div></div>' +
-    '<div class="flex justify-center gap-2 my-4">' + langs + '</div>' +
-    '<form data-form="onboard" class="space-y-3"><label class="font-bold">' + esc(t('onboard.ask')) + '</label>' +
-    '<input name="name" class="field" maxlength="40" required autocomplete="name"><button class="btn btn-primary w-full">' + esc(t('onboard.start')) + '</button></form>', true);
+  const w = $('#welcome');
+  w.innerHTML = '<div class="wrap"><div class="w-in w-full max-w-sm text-center">' +
+    '<div class="w-logo">🔥</div>' +
+    '<div class="w-title mt-5">FokusKu</div>' +
+    '<div class="muted font-semibold mt-2">' + esc(t('onboard.tag')) + '</div>' +
+    '<div class="glass p-5 mt-8 text-start">' +
+      '<div class="tiny muted font-bold mb-2">' + esc(t('onboard.lang')) + '</div>' +
+      '<div class="flex flex-wrap gap-2 mb-4">' + langs + '</div>' +
+      '<form data-form="onboard" class="space-y-3"><label class="font-bold">' + esc(t('onboard.ask')) + '</label>' +
+      '<input name="name" class="field" maxlength="40" required autocomplete="name" placeholder="' + esc(t('onboard.ph')) + '" value="' + esc(keepName || '') + '">' +
+      '<button class="btn btn-primary w-full">' + esc(t('onboard.start')) + ' →</button></form>' +
+    '</div></div></div>';
 }
-A.setLangOnboard = function(el){ lang = el.dataset.lang; LS.set('lang', lang); applyI18n(); renderHeader(); render(false); openOnboarding(); };
+function openOnboarding(){
+  document.body.classList.add('welcome-on');
+  const w = $('#welcome'); w.classList.remove('leave');
+  renderWelcome('');
+  window.scrollTo(0, 0);
+}
+function closeWelcome(){
+  const w = $('#welcome'); w.classList.add('leave');
+  setTimeout(() => {
+    document.body.classList.remove('welcome-on'); w.classList.remove('leave'); w.innerHTML = '';
+    renderHeader(); tab = 'home'; render(true); window.scrollTo(0, 0);
+    requestAnimationFrame(positionPill); setTimeout(positionPill, 150);
+  }, 420);
+}
+A.setLangOnboard = function(el){
+  const cur = document.querySelector('#welcome input[name=name]'); const keep = cur ? cur.value : '';
+  lang = el.dataset.lang; LS.set('lang', lang); applyI18n(); renderHeader(); renderWelcome(keep);
+};
 
 /* =====================================================================
    INIT
